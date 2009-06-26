@@ -1,0 +1,61 @@
+===Simple example:===
+
+This simple example shows how to use Tcpjunk as an SMTP traffic generator.
+
+1. Create the file smtp_client: 
+
+{{{
+<sect>helo localhost
+</sect>
+<sect>mail from: root@localhost
+</sect>
+<sect>rcpt to: root@localhost
+</sect>
+<sect>data
+</sect>
+<sect>lala
+lala
+.
+</sect>
+<sect>quit
+</sect>
+}}}
+
+2. Run a short test:
+
+# tcpjunk -s localhost -p 25 -c smtp_client -W -v
+
+{{{
+tcpjunk: Resolving address
+tcpjunk: Connecting to 127.0.0.1
+tcpjunk: Connected
+220 localhost.localdomain ESMTP Postfix
+tcpjunk: Received 38 bytes
+helo localhost
+tcpjunk: Sent 15 bytes
+250 pazuzu.localdomain
+tcpjunk: Received 24 bytes
+mail from: root@localhost
+tcpjunk: Sent 26 bytes
+250 2.1.0 Ok
+tcpjunk: Received 14 bytes
+rcpt to: root@localhost
+tcpjunk: Sent 24 bytes
+250 2.1.5 Ok
+tcpjunk: Received 14 bytes
+data
+tcpjunk: Sent 5 bytes
+354 End data with <CR><LF>.<CR><LF>
+tcpjunk: Received 37 bytes
+lala
+lala
+.
+tcpjunk: Sent 12 bytes
+250 2.0.0 Ok: queued as DE894201811E1
+tcpjunk: Received 39 bytes
+quit
+tcpjunk: Sent 5 bytes
+221 2.0.0 Bye
+tcpjunk: Received 15 bytes
+tcpjunk: Connection closed
+}}}
